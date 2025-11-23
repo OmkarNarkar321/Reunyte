@@ -3,13 +3,13 @@ import { Routes, Route, Link } from "react-router-dom";
 import CounsellingImg from "../assets/CounselingPage/counselling 1 1.png";
 import Career from "../assets/CounselingPage/carrer counsalling 1.png";
 import domain from "../assets/CounselingPage/web-domain 2.png";
-import interview from "../assets/CounselingPage/interview 1.png";
+import interviewImg from "../assets/CounselingPage/interview 1.png";  // ✅ FIXED: Renamed to avoid conflict
 import project from "../assets/CounselingPage/project 1.png";
 import man from "../assets/CounselingPage/businessman 1.png";
 import CareerCons from "./Counseling/CareerCons";
 import ConsMore from "./Counseling/ConsMore";
 import DomainCounseling from "./Counseling/Domain";
-import InterviewCounseling from "./Counseling/interview";
+import InterviewCounseling from "./Counseling/Interview";  // ✅ FIXED: Removed .jsx extension
 
 function ProjectCounseling() {
   return <div className="p-6 text-center text-xl">Project Counseling Page</div>;
@@ -52,7 +52,7 @@ export default function Counseling() {
               }}
             >
               <img
-                src="/src/assets/CounselingPage/Sphere.png"
+                src="/assets/CounselingPage/Sphere.png"
                 alt="Sphere"
                 className="w-[650px] h-[700px] object-contain opacity-50"
                 style={{ 
@@ -66,7 +66,7 @@ export default function Counseling() {
             {/* ADD YOUR TRIANGULAR IMAGE HERE - positioned at right side */}
             <div className={`absolute right-0 top-1/2 transform -translate-y-1/2 z-0 overflow-hidden ${isMobile ? 'hidden' : 'block'}`}>
               <img
-                src="/src/assets/CounselingPage/Group50.png"
+                src="/assets/CounselingPage/Group50.png"
                 alt=""
                 className="w-[359px] h-[380px] object-contain opacity-40"
                 style={{ 
@@ -195,7 +195,7 @@ export default function Counseling() {
             {/* Interview Counseling */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden w-full max-w-[280px] hover:shadow-xl transition-all duration-300 transform hover:scale-105">
               <div className="bg-red-200 flex items-center justify-center h-48">
-                <img src={interview} alt="Interview Counseling" className="w-24 h-24 object-contain" />
+                <img src={interviewImg} alt="Interview Counseling" className="w-24 h-24 object-contain" /> {/* ✅ FIXED: Changed to interviewImg */}
               </div>
               <div className="p-6 text-center">
                 <h3 className="text-xl font-semibold text-gray-800 mb-2" style={{ fontFamily: "Public Sans" }}>
