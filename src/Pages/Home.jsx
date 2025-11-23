@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function Home() {
+  const navigate = useNavigate(); // Add this hook
   const [currentIndex, setCurrentIndex] = useState(0);
   const [upcomingCurrentIndex, setUpcomingCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -142,9 +144,10 @@ export default function Home() {
     setCurrentIndex(index);
   };
 
+  // ✅ FIXED: Use navigate instead of window.location.href
   const handleCardClick = (link) => {
     if (!isDragging) {
-      window.location.href = link;
+      navigate(link);
     }
   };
 
@@ -192,9 +195,10 @@ export default function Home() {
     setUpcomingCurrentIndex(index);
   };
 
+  // ✅ FIXED: Use navigate instead of window.location.href
   const handleUpcomingCardClick = (link) => {
     if (!upcomingIsDragging) {
-      window.location.href = link;
+      navigate(link);
     }
   };
 
@@ -382,8 +386,9 @@ export default function Home() {
           Login with us to learn and earn
         </p>
 
+        {/* ✅ FIXED: Login Button - Use navigate instead of window.location.href */}
         <button
-          onClick={() => (window.location.href = "/login")}
+          onClick={() => navigate("/login")}
           className="bg-[#ED9455] text-white font-medium py-3 px-8 rounded-2xl shadow-lg hover:bg-[#d87f40] hover:shadow-xl transition-all duration-300 flex items-center gap-3 transform hover:scale-105"
           style={{ fontFamily: "Public Sans" }}
         >
@@ -537,8 +542,9 @@ export default function Home() {
                   do professional, be professional
                 </p>
 
+                {/* ✅ FIXED: Register Button - Use navigate instead of window.location.href */}
                 <button
-                  onClick={() => (window.location.href = "/register")}
+                  onClick={() => navigate("/register")}
                   className={`bg-[#FFEC9E] text-gray-800 font-semibold rounded-2xl shadow-lg hover:bg-[#ffe680] hover:shadow-xl transition-all duration-300 transform hover:scale-105 ${
                     isMobile ? 'py-3 px-6 text-sm' : 'py-4 px-8'
                   }`}
