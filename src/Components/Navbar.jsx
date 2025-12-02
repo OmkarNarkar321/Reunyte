@@ -210,24 +210,12 @@ export default function Navbar() {
           href: "/counseling/interview",
           description: "Interview preparation",
           key: "interview",
-          // subItems: [
-          //   { name: "Technical Interview", href: "/counseling/interview/technical" },
-          //   { name: "HR Interview", href: "/counseling/interview/hr" },
-          //   { name: "Group Discussion", href: "/counseling/interview/gd" },
-          //   { name: "Mock Interview", href: "/counseling/interview/mock" },
-          // ],
         },
         {
           name: "Project",
           href: "/counseling/project",
           description: "Project guidance",
           key: "project",
-          // subItems: [
-          //   { name: "Final Year Project", href: "/counseling/project/final" },
-          //   { name: "Mini Project", href: "/counseling/project/mini" },
-          //   { name: "Research Project", href: "/counseling/project/research" },
-          //   { name: "Industry Project", href: "/counseling/project/industry" },
-          // ],
         },
         {
           name: "After 10th",
@@ -247,56 +235,7 @@ export default function Navbar() {
       name: "Courses",
       key: "courses",
       href: "/courses",
-      items: [
-        // {
-        //   name: "Programming Languages",
-        //   href: "/courses/programming",
-        //   description: "Core programming languages",
-        //   key: "programming",
-        //   subItems: [
-        //     { name: "C Programming", href: "/courses/Cprogramming" },
-        //     { name: "Java Programming", href: "/courses/JavaProgramming" },
-        //     { name: "Python Programming", href: "/courses/PythonProgramming" },
-        //     { name: "JavaScript", href: "/courses/javascript" },
-        //   ],
-        // },
-        // {
-        //   name: "Full Stack Development",
-        //   href: "/courses/fullstack",
-        //   description: "Complete web development stacks",
-        //   key: "fullstack",
-        //   subItems: [
-        //     { name: "MEAN Stack", href: "/courses/Mean" },
-        //     { name: "MERN Stack", href: "/courses/MernStack" },
-        //     { name: "Django Stack", href: "/courses/django" },
-        //     { name: "Laravel Stack", href: "/courses/laravel" },
-        //   ],
-        // },
-        // {
-        //   name: "Data Science & AI",
-        //   href: "/courses/data-ai",
-        //   description: "Data science and artificial intelligence",
-        //   key: "data-ai",
-        //   subItems: [
-        //     { name: "Data Analytics", href: "/courses/data-analytics" },
-        //     { name: "Machine Learning", href: "/courses/machine-learning" },
-        //     { name: "Deep Learning", href: "/courses/deep-learning" },
-        //     { name: "AI Applications", href: "/courses/ai-applications" },
-        //   ],
-        // },
-        // {
-        //   name: "Cloud & DevOps",
-        //   href: "/courses/cloud-devops",
-        //   description: "Cloud computing and DevOps",
-        //   key: "cloud-devops",
-        //   subItems: [
-        //     { name: "AWS Fundamentals", href: "/courses/aws" },
-        //     { name: "Docker & Kubernetes", href: "/courses/docker-k8s" },
-        //     { name: "CI/CD Pipeline", href: "/courses/cicd" },
-        //     { name: "Cloud Architecture", href: "/courses/cloud-arch" },
-        //   ],
-        // },
-      ],
+      items: [],
     },
     {
       name: "Hackathon",
@@ -347,8 +286,9 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-14 sm:h-16">
-          {/* Logo */}
+        {/* ONLY MOBILE VIEW HEIGHT CHANGED: h-16 sm:h-18 md:h-16 instead of h-14 sm:h-16 */}
+        <div className="flex items-center justify-between h-16 sm:h-18 md:h-16">
+          {/* Logo - UNCHANGED */}
           <div className="flex items-center">
             <button onClick={() => handleNavigation("/")}> 
               <img
@@ -359,7 +299,7 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Desktop Navigation */}
+          {/* Desktop Navigation - COMPLETELY UNCHANGED */}
           <div className="hidden lg:flex items-center gap-1 xl:gap-2">
             {navItems.map((item) => (
               <div
@@ -476,45 +416,42 @@ export default function Navbar() {
             </button>
           </div>
 
-          {/* Right Side - Auth Buttons OR User Dropdown (Desktop) */}
-        <div className="hidden lg:flex items-center gap-2 xl:gap-3">
+          {/* Right Side - Auth Buttons OR User Dropdown (Desktop) - UNCHANGED */}
+          <div className="hidden lg:flex items-center gap-2 xl:gap-3">
             {loading ? (
-          // Loading skeleton
-          <div className="w-24 h-10 bg-gray-200 animate-pulse rounded-lg"></div>
-        ) : isAuthenticated ? (
-          // Show User Dropdown when logged in
-          <UserDropdown />
-        ) : (
-          // Show Login/Register buttons when not logged in
-          <>
-            <button
-              type="button"
-              onClick={() => handleNavigation("/login")}
-              className="px-3 xl:px-6 py-1.5 xl:py-2 border-2 border-orange-400 text-orange-500 rounded-lg hover:bg-orange-50 transition-colors duration-200 text-sm xl:text-base font-medium hover:border-orange-500 hover:text-orange-600 hover:shadow-xl hover:-translate-y-0.5"
-            >
-              Login
-            </button>
+              <div className="w-24 h-10 bg-gray-200 animate-pulse rounded-lg"></div>
+            ) : isAuthenticated ? (
+              <UserDropdown />
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => handleNavigation("/login")}
+                  className="px-3 xl:px-6 py-1.5 xl:py-2 border-2 border-orange-400 text-orange-500 rounded-lg hover:bg-orange-50 transition-colors duration-200 text-sm xl:text-base font-medium hover:border-orange-500 hover:text-orange-600 hover:shadow-xl hover:-translate-y-0.5"
+                >
+                  Login
+                </button>
 
-            <button
-              type="button"
-              onClick={() => handleNavigation("/register")}
-              className="px-3 xl:px-6 py-1.5 xl:py-2 bg-gradient-to-r from-orange-400 to-orange-500 text-white rounded-lg hover:from-orange-500 hover:to-orange-600 transition-all duration-200 text-sm xl:text-base font-medium shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-            >
-              Register
-            </button>
-          </>
-        )}
-      </div>
+                <button
+                  type="button"
+                  onClick={() => handleNavigation("/register")}
+                  className="px-3 xl:px-6 py-1.5 xl:py-2 bg-gradient-to-r from-orange-400 to-orange-500 text-white rounded-lg hover:from-orange-500 hover:to-orange-600 transition-all duration-200 text-sm xl:text-base font-medium shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+                >
+                  Register
+                </button>
+              </>
+            )}
+          </div>
 
-          {/* Mobile Auth Buttons + Hamburger */}
-          <div className="lg:hidden flex items-center gap-2">
+          {/* Mobile Auth Buttons + Hamburger - ONLY IMPROVED SPACING */}
+          <div className="lg:hidden flex items-center gap-2.5">
             {!loading && !isAuthenticated && (
               <>
                 <button
                   type="button"
                   onClick={() => handleNavigation("/login")}
                   aria-label="Login"
-                  className="px-2 py-1 border-2 border-orange-400 text-orange-500 rounded-lg bg-orange-50 transition-colors duration-200 text-sm xl:text-base font-medium shadow-lg"
+                  className="px-3.5 py-2 border-2 border-orange-400 text-orange-500 rounded-lg bg-orange-50 transition-colors duration-200 text-sm font-medium shadow-md whitespace-nowrap"
                 >
                   Login
                 </button>
@@ -523,7 +460,7 @@ export default function Navbar() {
                   type="button"
                   onClick={() => handleNavigation("/register")}
                   aria-label="Register"
-                  className="px-3 py-1 bg-gradient-to-r from-orange-400 to-orange-500 text-white rounded-lg text-sm xl:text-base font-medium shadow-lg"
+                  className="px-3.5 py-2 bg-gradient-to-r from-orange-400 to-orange-500 text-white rounded-lg text-sm font-medium shadow-md whitespace-nowrap"
                 >
                   Register
                 </button>
@@ -540,12 +477,12 @@ export default function Navbar() {
               className="p-2 rounded-lg text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
-              {isMobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - ONLY IMPROVED SPACING AND SIZING */}
         {isMobileMenuOpen && (
           <div style={{ backgroundColor: '#FFFDFB' }} className="lg:hidden border-t border-gray-200 max-h-screen overflow-y-auto">
             <div className="px-2 pt-2 pb-6 space-y-1">
@@ -555,7 +492,7 @@ export default function Navbar() {
                     <button
                       type="button"
                       onClick={() => handleNavigation(item.href)}
-                      className="flex-1 px-3 py-2.5 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors duration-200 font-medium text-left"
+                      className="flex-1 px-4 py-3 rounded-lg text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors duration-200 font-medium text-left text-base"
                     >
                       {item.name}
                     </button>
@@ -563,10 +500,10 @@ export default function Navbar() {
                       <button
                         type="button"
                         onClick={() => toggleMobileMenu(`mobile-${item.key}`)}
-                        className="p-2.5 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-gray-50 transition-colors duration-200"
+                        className="p-3 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-gray-50 transition-colors duration-200"
                       >
                         <ChevronDown
-                          className={`w-4 h-4 transition-transform duration-200 ${
+                          className={`w-5 h-5 transition-transform duration-200 ${
                             openMenu === `mobile-${item.key}` ? "rotate-180" : "rotate-0"
                           }`}
                         />
@@ -584,18 +521,18 @@ export default function Navbar() {
                                 <button
                                   onClick={() => handleNavigation(subItem.href)}
                                   style={{ backgroundColor: '#FFFDFB' }}
-                                  className="flex-1 px-3 py-2 text-left text-sm text-gray-600 hover:text-blue-600 rounded-lg transition-colors duration-200 font-medium"
+                                  className="flex-1 px-3 py-2.5 text-left text-sm text-gray-600 hover:text-blue-600 rounded-lg transition-colors duration-200 font-medium"
                                 >
                                   {subItem.name}
                                 </button>
                                 <button
                                   type="button"
                                   onClick={() => setOpenSubMenu(openSubMenu === `mobile-sub-${subItem.key}` ? null : `mobile-sub-${subItem.key}`)}
-                                  className="px-2 py-2 text-gray-400 hover:text-blue-600 transition-colors duration-200"
+                                  className="px-2.5 py-2.5 text-gray-400 hover:text-blue-600 transition-colors duration-200"
                                   title={`View ${subItem.name} options`}
                                 >
                                   <ChevronDown
-                                    className={`w-3 h-3 transition-transform duration-200 ${
+                                    className={`w-4 h-4 transition-transform duration-200 ${
                                       openSubMenu === `mobile-sub-${subItem.key}` ? "rotate-180" : "rotate-0"
                                     }`}
                                   />
@@ -607,7 +544,7 @@ export default function Navbar() {
                                     <button
                                       key={nestedIndex}
                                       onClick={() => handleNavigation(nestedItem.href)}
-                                      className="block w-full px-3 py-1.5 text-left text-xs text-gray-500 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors duration-200"
+                                      className="block w-full px-3 py-2 text-left text-sm text-gray-500 hover:text-blue-600 hover:bg-gray-50 rounded-lg transition-colors duration-200"
                                     >
                                       {nestedItem.name}
                                     </button>
@@ -619,7 +556,7 @@ export default function Navbar() {
                             <button
                               onClick={() => handleNavigation(subItem.href)}
                               style={{ backgroundColor: '#FFFDFB' }}
-                              className="block w-full px-3 py-2 text-left text-sm text-gray-600 hover:text-blue-600 rounded-lg transition-colors duration-200"
+                              className="block w-full px-3 py-2.5 text-left text-sm text-gray-600 hover:text-blue-600 rounded-lg transition-colors duration-200"
                             >
                               <div className="font-medium">{subItem.name}</div>
                               {subItem.description && (
@@ -636,7 +573,7 @@ export default function Navbar() {
 
               <button
                 onClick={() => handleNavigation("/startup")}
-                className="block w-full px-3 py-2.5 text-left rounded-lg text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors duration-200 font-medium"
+                className="block w-full px-4 py-3 text-left rounded-lg text-gray-700 hover:text-blue-600 hover:bg-gray-50 transition-colors duration-200 font-medium text-base"
               >
                 Startup Services
               </button>

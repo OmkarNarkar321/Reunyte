@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 
 export default function Home() {
-  const navigate = useNavigate(); // Add this hook
+  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [upcomingCurrentIndex, setUpcomingCurrentIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
@@ -11,6 +11,15 @@ export default function Home() {
   const [startX, setStartX] = useState(0);
   const [upcomingStartX, setUpcomingStartX] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  // Mouse move handler for parallax effect
+  const handleParallaxMouseMove = useCallback((e) => {
+    setMousePosition({
+      x: (e.clientX / window.innerWidth) * 20,
+      y: (e.clientY / window.innerHeight) * 20
+    });
+  }, []);
 
   // Mobile detection
   useEffect(() => {
@@ -21,6 +30,20 @@ export default function Home() {
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
+
+  // Add mouse move listener for parallax
+  useEffect(() => {
+    window.addEventListener('mousemove', handleParallaxMouseMove, { passive: true });
+    return () => window.removeEventListener('mousemove', handleParallaxMouseMove);
+  }, [handleParallaxMouseMove]);
+
+  // Animated blobs configuration
+  const blobs = useMemo(() => [
+    { pos: 'top-10 left-10', color: 'bg-orange-200', delay: 0, x: 1, y: 1, size: 'w-64 h-64' },
+    { pos: 'top-32 right-20', color: 'bg-yellow-200', delay: 2000, x: -1, y: 1, size: 'w-72 h-72' },
+    { pos: 'bottom-20 left-1/4', color: 'bg-orange-300', delay: 4000, x: 1, y: -1, size: 'w-80 h-80' },
+    { pos: 'top-1/2 right-10', color: 'bg-pink-200', delay: 3000, x: -1, y: -1, size: 'w-56 h-56' }
+  ], []);
 
   const cards = [
     {
@@ -123,7 +146,6 @@ export default function Home() {
     },
   ];
 
-  // Fixed navigation - 2 slides for 5 cards (desktop), mobile: 1 card per slide
   const totalSlides = isMobile ? cards.length : 2;
   const upcomingTotalSlides = isMobile ? upcomingCards.length : 2;
 
@@ -144,7 +166,6 @@ export default function Home() {
     setCurrentIndex(index);
   };
 
-  // ✅ FIXED: Use navigate instead of window.location.href
   const handleCardClick = (link) => {
     if (!isDragging) {
       navigate(link);
@@ -195,7 +216,6 @@ export default function Home() {
     setUpcomingCurrentIndex(index);
   };
 
-  // ✅ FIXED: Use navigate instead of window.location.href
   const handleUpcomingCardClick = (link) => {
     if (!upcomingIsDragging) {
       navigate(link);
@@ -232,34 +252,34 @@ export default function Home() {
   const renderCard = (card, index, isUpcoming = false) => (
     <div
       key={index}
-      className="flex-shrink-0 rounded-2xl shadow-lg relative text-white overflow-hidden transition-all duration-300 hover:shadow-xl"
+      className="flex-shrink-0 rounded-2xl shadow-lg relative text-white overflow-hidden group card-hover-lift"
       style={{ 
         width: isMobile ? '320px' : '360px',
         height: isMobile ? '260px' : '270px'
       }}
     >
-      {/* Gradient background */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient}`}></div>
+      {/* Gradient background with shine effect */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} transition-all duration-500 group-hover:scale-105`}></div>
+      
+      {/* Animated shine overlay on hover */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shine"></div>
+      </div>
 
-      {/* Card Content */}
       <div className="relative z-10 p-4 h-full flex flex-col">
-        {/* Title section */}
         <div className="mb-2">
-          <h3 className="text-lg md:text-xl font-bold text-white">
+          <h3 className="text-lg md:text-xl font-bold text-white transition-transform duration-300 group-hover:translate-x-1">
             {card.title}
           </h3>
         </div>
 
-        {/* Description */}
-        <p className="text-[14px] leading-relaxed text-white/90 font-medium mb-1 max-w-[100%]">
+        <p className="text-[14px] leading-relaxed text-white/90 font-medium mb-1 max-w-[100%] transition-all duration-300 group-hover:text-white">
           {card.desc}
         </p>
 
-        {/* Bottom section */}
         <div className="mt-auto flex items-end justify-between">
-          {/* Know More Button */}
           <button
-            className="bg-white font-semibold py-1.5 px-3 rounded-md shadow-md hover:bg-gray-100 transition-all duration-200 text-[12px] hover:scale-105"
+            className="bg-white font-semibold py-1.5 px-3 rounded-md shadow-md hover:bg-gray-100 transition-all duration-300 text-[12px] hover:scale-110 hover:shadow-lg transform relative overflow-hidden group/btn"
             style={{ color: card.buttonTextColor }}
             onClick={(e) => {
               e.stopPropagation();
@@ -268,15 +288,16 @@ export default function Home() {
               }
             }}
           >
-            {isUpcoming ? 'Upcoming...' : 'Know more'}
+            {/* Button ripple effect */}
+            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent opacity-0 group-hover/btn:opacity-100 group-hover/btn:animate-button-shine pointer-events-none"></span>
+            <span className="relative z-10">{isUpcoming ? 'Upcoming...' : 'Know more'}</span>
           </button>
 
-          {/* Image container - Right side with fixed dimensions and positioning */}
-          <div className={`flex-shrink-0 flex items-center justify-center ml-2 ${isMobile ? 'w-48 h-36' : 'w-56 h-40'}`}>
+          <div className={`flex-shrink-0 flex items-center justify-center ml-2 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 ${isMobile ? 'w-48 h-36' : 'w-56 h-40'}`}>
             <img
               src={card.image}
               alt={card.alt}
-              className="max-w-full max-h-full object-contain object-center"
+              className="max-w-full max-h-full object-contain object-center filter drop-shadow-lg"
               draggable="false"
             />
           </div>
@@ -305,9 +326,10 @@ export default function Home() {
       : currentIdx * (totalCardWidth * (CARDS_PER_SLIDE - 1));
 
     return (
-      <div className="relative w-full max-w-10xl mx-auto">
+      <div className="relative w-full max-w-10xl mx-auto" style={{ padding: '20px 0' }}>
         <div
           className="overflow-hidden cursor-grab active:cursor-grabbing select-none"
+          style={{ margin: '-20px 0', padding: '20px 0' }}
           onMouseDown={mouseHandlers.onMouseDown}
           onMouseMove={mouseHandlers.onMouseMove}
           onMouseUp={mouseHandlers.onMouseUp}
@@ -319,7 +341,7 @@ export default function Home() {
             className={`flex transition-transform duration-500 ease-out ${isMobile ? 'justify-start pl-6' : ''}`}
             style={{
               transform: `translateX(-${translateValue}px)`,
-              gap: `${gap}px`,
+              gap: `${gap}px`
             }}
           >
             {cardsData.map((card, index) =>
@@ -328,7 +350,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Left arrow */}
         {currentIdx > 0 && (
           <button
             onClick={prevHandler}
@@ -338,7 +359,6 @@ export default function Home() {
           </button>
         )}
 
-        {/* Right arrow */}
         {currentIdx < totalSlidesCount - 1 && (
           <button
             onClick={nextHandler}
@@ -348,7 +368,6 @@ export default function Home() {
           </button>
         )}
 
-        {/* Dots */}
         {totalSlidesCount > 1 && (
           <div className="flex justify-center mt-6 gap-2">
             {Array.from({ length: totalSlidesCount }, (_, index) => (
@@ -370,37 +389,64 @@ export default function Home() {
 
   return (
     <>
-      {/* CTA Section */}
-      <section className="flex flex-col items-center justify-center text-center py-16 px-4" style={{ backgroundColor: '#FFFDFB' }}>
-        <h1
-          className="text-[#ED9455] font-bold text-4xl md:text-5xl mb-4"
-          style={{ fontFamily: "Domine, serif" }}
-        >
-          Welcome to xplore!
-        </h1>
+      {/* CTA Section with Dynamic Background */}
+      <section className="relative flex flex-col items-center justify-center text-center py-20 px-4 overflow-hidden" style={{ backgroundColor: '#FFFDFB' }}>
+        {/* Animated Background Blobs */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {blobs.map((blob, i) => (
+            <div 
+              key={i}
+              className={`absolute ${blob.pos} ${blob.size} ${blob.color} rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob`}
+              style={{ 
+                transform: `translate(${mousePosition.x * blob.x}px, ${mousePosition.y * blob.y}px)`,
+                animationDelay: `${blob.delay}ms`
+              }}
+            />
+          ))}
+        </div>
 
-        <p
-          className="text-gray-700 text-[26px] leading-[43px] max-w-[650px] mb-8"
-          style={{ fontFamily: "Domine, serif" }}
-        >
-          Login with us to learn and earn
-        </p>
+        {/* Content - with z-index to appear above blobs */}
+        <div className="relative z-10 animate-fadeInUp">
+          {/* Sparkles Badge */}
+          <div className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 sm:px-6 py-2 sm:py-3 rounded-full shadow-lg mb-6 border border-orange-200 animate-fadeInUp" style={{ animationDelay: '200ms' }}>
+            <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-orange-400 animate-pulse" />
+            <span className="text-orange-600 font-semibold text-xs sm:text-sm tracking-wide">START YOUR JOURNEY</span>
+          </div>
 
-        {/* ✅ FIXED: Login Button - Use navigate instead of window.location.href */}
-        <button
-          onClick={() => navigate("/login")}
-          className="bg-[#ED9455] text-white font-medium py-3 px-8 rounded-2xl shadow-lg hover:bg-[#d87f40] hover:shadow-xl transition-all duration-300 flex items-center gap-3 transform hover:scale-105"
-          style={{ fontFamily: "Public Sans" }}
-        >
-          Login here <span className="text-lg">→</span>
-        </button>
+          <h1
+            className="text-[#ED9455] font-bold text-4xl md:text-5xl mb-4 animate-fadeInUp"
+            style={{ fontFamily: "Domine, serif", animationDelay: '400ms' }}
+          >
+            Welcome to <span className="relative inline-block">
+              xplore!
+              <svg className="absolute -bottom-1 sm:-bottom-2 left-0 w-full" height="12" viewBox="0 0 200 12" fill="none">
+                <path d="M2 8C41.7 3.7 160.3 -1.7 198 8" stroke="#ED9455" strokeWidth="3" strokeLinecap="round"/>
+              </svg>
+            </span>
+          </h1>
+
+          <p
+            className="text-gray-700 text-[26px] leading-[43px] max-w-[650px] mb-8 animate-fadeInUp"
+            style={{ fontFamily: "Domine, serif", animationDelay: '600ms' }}
+          >
+            Login with us to learn and earn
+          </p>
+
+          <button
+            onClick={() => navigate("/login")}
+            className="bg-[#ED9455] text-white font-medium py-3 px-8 rounded-2xl shadow-lg hover:bg-[#d87f40] hover:shadow-xl transition-all duration-300 flex items-center gap-3 transform hover:scale-105 mx-auto animate-fadeInUp"
+            style={{ fontFamily: "Public Sans", animationDelay: '800ms' }}
+          >
+            Login here <span className="text-lg">→</span>
+          </button>
+        </div>
       </section>
 
       {/* Opportunities Section */}
-      <section className="py-16 px-4 bg-gradient-to-b from-[#FFFDFB] to-gray-50">
+      <section className="py-16 px-4 bg-gradient-to-b from-[#FFFDFB] to-gray-50 relative">
         <div className="max-w-6xl mx-auto">
           <h2
-            className="text-3xl font-bold text-gray-800 mb-10"
+            className="text-3xl font-bold text-gray-800 mb-10 animate-fadeInUp"
             style={{ fontFamily: "Domine, serif" }}
           >
             Opportunities
@@ -423,19 +469,19 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Upcoming Opportunities Section - Added extra padding bottom to prevent overlap */}
-      <section className="py-16 px-4 pb-32 bg-gradient-to-b from-gray-50 to-[#FFFDFB]">
+      {/* Upcoming Opportunities Section */}
+      <section className="py-16 px-4 pb-32 bg-gradient-to-b from-gray-50 to-[#FFFDFB] relative">
         <div className="max-w-6xl mx-auto">
           <div className="flex justify-between items-center mb-10">
             <h2
-              className="text-3xl font-bold text-gray-800"
+              className="text-3xl font-bold text-gray-800 animate-fadeInUp"
               style={{ fontFamily: "Domine, serif" }}
             >
               Upcoming Opportunities...
             </h2>
             <button
-              className="text-[#ED9455] font-semibold text-lg hover:text-[#d87f40] transition-colors duration-300"
-              style={{ fontFamily: "Public Sans" }}
+              className="text-[#ED9455] font-semibold text-lg hover:text-[#d87f40] transition-colors duration-300 animate-fadeInUp"
+              style={{ fontFamily: "Public Sans", animationDelay: '200ms' }}
             >
               See all →
             </button>
@@ -458,7 +504,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Spacer */}
       <div className="h-10 md:h-10" style={{ backgroundColor: '#FFFDFB' }}></div>
 
       {/* CTA Section - Elevate your career */}
@@ -542,7 +587,6 @@ export default function Home() {
                   do professional, be professional
                 </p>
 
-                {/* ✅ FIXED: Register Button - Use navigate instead of window.location.href */}
                 <button
                   onClick={() => navigate("/register")}
                   className={`bg-[#FFEC9E] text-gray-800 font-semibold rounded-2xl shadow-lg hover:bg-[#ffe680] hover:shadow-xl transition-all duration-300 transform hover:scale-105 ${
@@ -557,6 +601,58 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* CSS Animations */}
+      <style jsx>{`
+        @keyframes blob {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          25% { transform: translate(20px, -50px) scale(1.1); }
+          50% { transform: translate(-20px, 20px) scale(0.9); }
+          75% { transform: translate(50px, 50px) scale(1.05); }
+        }
+        @keyframes fadeInUp {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes shine {
+          0% { transform: translateX(-100%) skewX(-15deg); }
+          100% { transform: translateX(200%) skewX(-15deg); }
+        }
+        @keyframes button-shine {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(200%); }
+        }
+        .animate-blob { 
+          animation: blob 7s infinite; 
+        }
+        .animate-fadeInUp { 
+          animation: fadeInUp 0.8s ease-out forwards; 
+          opacity: 0;
+        }
+        .animate-shine {
+          animation: shine 2s ease-in-out;
+        }
+        .animate-button-shine {
+          animation: button-shine 0.6s ease-out;
+        }
+        .card-hover-lift {
+          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s ease;
+          will-change: transform;
+        }
+        .card-hover-lift:hover {
+          transform: translateY(-12px);
+          box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1);
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .animate-blob, .animate-fadeInUp, .animate-pulse, .animate-shine, .animate-button-shine {
+            animation: none !important;
+            opacity: 1 !important;
+          }
+          .hover\\:scale-105:hover, .hover\\:scale-110:hover, .hover\\:scale-125:hover, .card-hover-lift:hover {
+            transform: none !important;
+          }
+        }
+      `}</style>
     </>
   );
 }
