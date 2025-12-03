@@ -98,7 +98,7 @@ export default function Home() {
       title: "Internship",
       desc: "Opportunity to work on real-world projects",
       status: "Upcoming...",
-      link: "/internship",
+      link: "/coming-soon",
       gradient: "from-[#93AC4B] to-[#FFF7AF]",
       buttonTextColor: "#93AC4B",
       image: "/src/assets/Homepage/Internship.png",
@@ -108,7 +108,7 @@ export default function Home() {
       title: "Go-kart Students",
       desc: "Accelerate your skills",
       status: "Upcoming...",
-      link: "/gokart",
+      link: "/coming-soon",
       gradient: "from-[#5B888B] to-[#9EDDF1]",
       buttonTextColor: "#4A9B9B",
       image: "/src/assets/Homepage/Gokart.png",
@@ -118,7 +118,7 @@ export default function Home() {
       title: "Formula Students",
       desc: "Showcase skills, talent",
       status: "Upcoming...",
-      link: "/formula",
+      link: "/coming-soon",
       gradient: "from-[#974F4F] to-[#D79B9B]",
       buttonTextColor: "#974F4F",
       image: "/src/assets/Homepage/Formula.png",
@@ -128,7 +128,7 @@ export default function Home() {
       title: "Industrial Visit",
       desc: "Build tomorrow's solutions",
       status: "Upcoming...",
-      link: "/innovation",
+      link: "/coming-soon",
       gradient: "from-[#50934A] to-[#C9FFAF]",
       buttonTextColor: "#50934A",
       image: "/src/assets/Homepage/IndustrialVisit.png",
@@ -138,7 +138,7 @@ export default function Home() {
       title: "Interview Prep",
       desc: "Master your interview skills",
       status: "Upcoming...",
-      link: "/interview",
+      link: "/coming-soon",
       gradient: "from-[#AC17BF] to-[#D088D9]",
       buttonTextColor: "#AC17BF",
       image: "/src/assets/Homepage/Interviewprep.png",
@@ -443,7 +443,7 @@ export default function Home() {
       </section>
 
       {/* Opportunities Section */}
-      <section className="py-16 px-4 bg-gradient-to-b from-[#FFFDFB] to-gray-50 relative">
+      <section className="py-16 px-4 bg-gradient-to-b from-[#FFFDFB] to-[#FFF2E9] relative">
         <div className="max-w-6xl mx-auto">
           <h2
             className="text-3xl font-bold text-gray-800 mb-10 animate-fadeInUp"
@@ -470,7 +470,7 @@ export default function Home() {
       </section>
 
       {/* Upcoming Opportunities Section */}
-      <section className="py-16 px-4 pb-32 bg-gradient-to-b from-gray-50 to-[#FFFDFB] relative">
+      <section className="py-16 px-4 pb-32 bg-gradient-to-b from-[#FFF2E9] to-[#FFF5ED] relative">
         <div className="max-w-6xl mx-auto">
           <div className="flex justify-between items-center mb-10">
             <h2
@@ -504,10 +504,10 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="h-10 md:h-10" style={{ backgroundColor: '#FFFDFB' }}></div>
+      <div className="h-10 md:h-10" style={{ backgroundColor: '#FFF5ED' }}></div>
 
       {/* CTA Section - Elevate your career */}
-      <section className="py-10 px-4" style={{ backgroundColor: '#FFFDFB' }}>
+      <section className="py-10 px-4" style={{ backgroundColor: '#FFF5ED' }}>
         <div className="max-w-6xl mx-auto">
           <div 
             className="relative rounded-3xl shadow-2xl"

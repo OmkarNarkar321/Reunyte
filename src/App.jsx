@@ -12,6 +12,8 @@ import Home from './Pages/Home';
 
 // ✅ FIXED: Counseling main page is at src/Pages/Counseling.jsx
 import Counseling from './Pages/Counseling';
+import ComingSoon from './Pages/UpcomingOpportunities/ComingSoon';
+
 
 // ✅ FIXED: All counseling sub-pages are in src/Pages/Counseling/
 import CareerCons from './Pages/Counseling/CareerCons';
@@ -63,6 +65,7 @@ import StudentDashboard from './Pages/Dashboard/StudentDashboard';
 
 // Import Change Password Component
 import ChangePasswordModal from './Components/ChangePasswordModal';
+
 
 // Page wrapper component to handle navbar spacing
 const PageWrapper = ({ children }) => (
@@ -173,6 +176,9 @@ function App() {
             <Route path="/counseling/domain/automobile" element={<PageWrapper><Domain initialCategory="Automobile" /></PageWrapper>} />
             <Route path="/counseling/domain/electrical" element={<PageWrapper><Domain initialCategory="Electrical" /></PageWrapper>} />
             <Route path="/counseling/domain/civil" element={<PageWrapper><Domain initialCategory="Civil" /></PageWrapper>} />
+
+            {/* ✅ Upcoming Opportunities Route */}
+            <Route path="/coming-soon" element={<ComingSoon />} />
 
             {/* ✅ Counseling Form Routes */}
             <Route path="/apply" element={<PageWrapper><Apply /></PageWrapper>} />
